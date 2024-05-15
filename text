@@ -1,0 +1,62 @@
+ $table->id();
+ $table->string('title');
+ $table->foreignId('catergory_id')->constrained('catergories')->cascadeOnDelete();
+ $table->foreignId('job_type_id')->constrained()->cascadeOnDelete();
+ $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+ $table->integer('satus')->default(1);
+ $table->integer('isFeatured')->default(1);
+ $table->integer('experience');
+ $table->integer('vacancy');
+ $table->string('salary')->nullable();
+ $table->string('location');
+ $table->text('description')->nullable();
+ $table->text('benefits')->nullable();
+ $table->text('responsibility')->nullable();
+ $table->text('qualifications')->nullable();
+ $table->text('keywords')->nullable();
+ $table->string('experience');
+ $table->string('company_name');
+ $table->string('company_location')->nullable();
+ $table->string('company_website')->nullable();
+ $table->timestamps();
+
+ protected $fillable = [
+        'title',
+        'catergory_id',
+        'job_type_id',
+        'vacancy',
+        'salary',
+        'location',
+        'description',
+        'benefits',
+        'responsibility',
+        'qualifications',
+        'keywords',
+        'experience',
+        'company_name',
+        'company_location',
+        'company_website',
+    ];
+
+ $table->string('name');
+ $table->integer('status')->default(1);
+
+ <option value="">Select a Category</option>
+ @if ($categories->isNotEmpty())
+ @foreach ($categories as $category )
+ <option value="{{$category->id}}">{{$category->name}}</option>
+ @endforeach
+
+ @endif
+ </select>
+
+
+ <select name="jobType" id="">
+     <option value="">Select a Job Type</option>
+     @if ($jobType->isNotEmpty())
+     @foreach ($jobType as $jobType )
+     <option value="{{$jobType->id}}">{{$jobType->name}}</option>
+     @endforeach
+
+     @endif
+ </select>
