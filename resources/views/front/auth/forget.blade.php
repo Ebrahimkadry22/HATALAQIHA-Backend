@@ -6,9 +6,9 @@
         @include('front.message')
       <div class="box">
        <div class="heading">
-        <h2>Login</h2>
+        <h2>Forget Password </h2>
        </div>
-       <form action="{{ route("account.authenticate")}}" method="post">
+       <form action="{{ route('processForgetPassword')}}" method="post">
         @csrf
         <div>
           <label for="">Email</label>
@@ -19,29 +19,19 @@
           <p class="invalid-feedback">{{ $message }}</p>
           @enderror
         </div>
-        <div>
-          <label for="">Password</label>
-          <input type="password" value="{{ old('password') }}" name="password" placeholder="Enter Password" class="@error('password')
-          is-invalid
-          @enderror">
-          @error('password')
-          <p class="invalid-feedback">{{ $message }}</p>
-          @enderror
-        </div>
+
         <div>
           <div class="login-form">
             <div>
-              <button class="btn btn-check">Login</button>
+              <button class="btn btn-check">Submit</button>
             </div>
-            <div class="password">
-              <a href="{{route('forgetpassword')}}">Forgot Password?</a>
-            </div>
+
           </div>
         </div>
        </form>
       </div>
       <div class="register">
-        <p>Do not have an account? <a href="{{route("registration")}}">Register</a></p>
+        <p>Do not have an account? <a href="{{route('accountlogin')}}">Back to Login</a></p>
       </div>
     </div>
   </div>

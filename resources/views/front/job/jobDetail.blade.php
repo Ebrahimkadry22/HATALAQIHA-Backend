@@ -200,11 +200,14 @@
                     url: '{{ route('apply.job') }}',
                     type: 'post',
                     dataType: 'json',
+
                     data: {
                         id: id
                     },
                     success: function(response) {
-                        window.location.href = "{{ url()->current() }}";
+                        if(response.this.error == false ) {
+                            window.location.reload();
+                        }
 
                     }
                 })

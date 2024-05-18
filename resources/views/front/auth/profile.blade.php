@@ -98,6 +98,7 @@
 
 @section('customjs')
     <script>
+        // change user data
         $("#ProfileForm").submit(function(e) {
             e.preventDefault();
             $.ajax({
@@ -136,6 +137,7 @@
         // change password
         $('#changePasswordForm').submit(function(e) {
             e.preventDefault();
+            console.log(e);
             $.ajax({
                 url: '{{ route('update.password') }}',
                 type: 'post',
@@ -187,9 +189,38 @@
                                 '');
                         window.location.href = '{{ route('account.profile') }}'
                     }
+
                 }
 
             });
         });
+
+// update image user
+$('#updateImage').submit(function (e) {
+    e.preventDefault();
+    var formData = $(this).serialize();
+    console.log(formData);
+    $.ajax({
+            url : '{{route('account.updateImage')}}',
+            type : 'PUT',
+            dataType : 'json',
+            data: formData,
+                    contentType: false,
+                    processData: false,
+            success : function (response) {
+                var errors = response.errors;
+                if(response.status == false) {
+                    if(errors.image) {
+                        $("#image").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors.image);
+                    }
+                }else {
+                    $("#image").removeClass('is-invalid').siblings('p').addClass('valid').html('');
+                }
+            }
+
+        });
+
+});
+
     </script>
 @endsection

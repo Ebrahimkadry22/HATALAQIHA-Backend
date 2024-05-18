@@ -2,20 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\VerificationEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AccountController extends Controller
 {
+
+    // Display page registration
     public function registration () {
         return view('front.auth.registration');
     }
 
 
 
+    // User processRegistration
     public function processRegistration (Request $request) {
         $validator = Validator::make($request->all(),[
             'name'=>'required|min:3|max:100',
@@ -32,7 +37,7 @@ class AccountController extends Controller
             $user->password = Hash::make($request->password);
             $user->save();
             session()->flash('success','You have registerd successfully.');
-
+            // Mail::to($request->email)->send(new VerificationEmail($request->name,"fgreghsdiohgdohgiohfioehro"));
             return response()->json([
                 'status'=> true ,
                 'errors' => []
@@ -44,11 +49,11 @@ class AccountController extends Controller
             ]);
         }
     }
-
+    // Display page login
     public function login () {
         return view('front.auth.login');
     }
-
+    // process login user
     public function authenticate (Request $request) {
         $validator = Validator::make($request->all(),[
             'email'=> "required|email",
@@ -70,6 +75,8 @@ class AccountController extends Controller
         }
     }
 
+
+    // Display profile user Data
     public function profile () {
             $id = Auth::user()->id;
             $user = User::where('id',$id)->first();
@@ -77,6 +84,7 @@ class AccountController extends Controller
 
         }
 
+        // user update Data
         public function updateProfile (Request $request) {
         $id = Auth::user()->id;
         $validator = Validator::make($request->all(),[
@@ -110,16 +118,19 @@ class AccountController extends Controller
 
     }
 
-    public function updateProfileImage (Request $request) {
+
+    // update image
+    public function updateImage (Request $request) {
 
         $id = Auth::user()->id;
+        dd($request->all());
         $validator = Validator::make($request->all(),[
-            'photo' => 'required|mimes:png,jpg,jpeg|max:2048'
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048'
         ]);
-        dd($request->photo);
+
 
         if($validator->passes()) {
-            $image = $request->photo;
+            $image = $request->image;
             $ext = $image->getClientOriginalExtension();
             $imageName = $id . '-' . time() . '.' . $ext ;
             $image->move(public_path('asstes/image/profile-pic'),$imageName);
@@ -138,11 +149,14 @@ class AccountController extends Controller
         }
     }
 
+
+    // user logout
     public function logout () {
         Auth::logout();
         return redirect()->route('accountlogin');
     }
 
+    // update password
     public function updatePassword (Request $request) {
         $validator = Validator::make($request->all(),[
             'oldpassword'=> 'required',
@@ -156,20 +170,26 @@ class AccountController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
+
         $userId = Auth::user()->id;
-       if(Hash::check($request->oldpassword,Auth::user()->password) == false ) {
+       if(!Hash::check(Auth::user()->password,$request->oldpassword)) {
+        // dd($request->all() , Auth::user()->password );
+
         session()->flash('error','Your Old password is incorrect .');
+
         return response()->json([
-            'status' => false
+            'status' => false,
+
         ]);
        }
 
        $user = User::find($userId);
+       dd(encrypt($request->newpassword));
        $user->password = Hash::make($request->newpassword);
-       $user->update();
-       session()->flash('error','Password update Successfully .');
+       $user->save();
+       session()->flash('success','Password update Successfully .');
         return response()->json([
-            'status' => false
+            'status' => true
         ]);
 
 

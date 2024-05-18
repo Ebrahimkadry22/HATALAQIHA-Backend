@@ -22,15 +22,18 @@
         <div>
           <h5>Change Profile Picture</h5>
           <div>
-            <form id="profilePicForm" method="post" enctype="multipart/form-data" >
+            <form id="updateImage" name="updateImage" method="post" enctype="multipart/form-data" >
+                @csrf
+                @method("put")
                 <div>
                   <label for="">Profile image</label>
-                  <input type="file" name="photo" id="image">
+                  <input type="file" name="image" id="image">
                   <p></p>
                 </div>
                 <div>
                   <button type="submit" class="btn btn-check">Update</button>
-                  <a id="close" class="btn btn-no-check">Close</a>
+                  <button id="close" class="btn btn-no-check">Close</button>
+
                 </div>
             </form>
           </div>
@@ -52,35 +55,8 @@
     </div>
 
   </div>
-{{--
-@section('customjs')
-<script>
-    $('#profilePicForm').submit(function(e) {
-        e.preventDefault();
 
-        $.ajax({
-            url : '{{route("account.updatePic")}}',
-            type : 'PUT',
-            dataType : 'json',
-            data : $("#profilePicForm").serializeArray(),
-            contenttype : false ,
-            processData : false ,
-            success : function (response) {
-                var errors = response.errors;
-                if(response.status == false) {
-                    if(errors.image) {
-                        $("#image").addClass('is-invalid').siblings('p').addClass('invalid-feedback').html(errors.image);
-                    }
-                }else {
-                    $("#image").removeClass('is-invalid').siblings('p').addClass('valid').html('');
-                }
-            }
 
-        });
-    });
-</script>
 
-@endsection
- --}}
 
 

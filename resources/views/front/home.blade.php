@@ -54,9 +54,10 @@
         <div class="row">
         @foreach ( $catergories as $catergory )
         <div class="single-category">
+
             <a href="{{route('find.jobs').'?catergory='.$catergory->id}}">
               <h3>{{$catergory->name}}</h3>
-              <p><span>50</span> Available position</p>
+              <p><span>{{$catergory->jobs->count() }}</span> Available position</p>
             </a>
           </div>
           @endforeach

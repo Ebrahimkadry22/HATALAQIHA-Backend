@@ -9,9 +9,11 @@ use App\Http\Controllers\admin\TypeJobController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\ApplyJob;
 use App\Http\Controllers\FindJobController;
+use App\Http\Controllers\ForgetController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\SaveJobController;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,8 +27,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/send-email', function () {
+//     dd(env('MAIL_FROM_ADDRESS') , env('MAIL_FROM_NAME') ,env( 'APP_NAME'));
+
+//     // $to_email = 'recipient@example.com';
+//     // $data = [
+//     //     'message' => 'This is a test email from Laravel.'
+//     // ];
+//     // Mail::raw($data['message'], function ($message) use ($to_email) {
+//     //     $message->to($to_email)
+//     //             ->subject('Test Email')
+//     //             ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
+//     // });
+
+//     // return 'Email sent successfully!';
 // });
 
 // pubilc
@@ -41,6 +55,10 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/account/registration', [AccountController::class, 'processRegistration'])->name('account.registration');
     Route::get('/accountlogin', [AccountController::class, 'login'])->name('accountlogin');
     Route::post('/authenticate/login', [AccountController::class, 'authenticate'])->name('account.authenticate');
+    Route::get('/forgetpassword',[ForgetController::class,'index'])->name('forgetpassword');
+    Route::post('/processForgetPassword',[ForgetController::class,'processForgetPassword'])->name('processForgetPassword');
+    Route::get('resetpassword/{token}',[ForgetController::class,'resetPasswodlink'])->name('resetpassword');
+    Route::post('processresetpassword',[ForgetController::class,'processResetPassword'])->name('processResetPassword');
 });
 
 Route::group(['middleware' => 'auth'], function () {
@@ -48,7 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/account/profile', [AccountController::class, 'profile'])->name('account.profile');
     Route::put('account/update', [AccountController::class, 'updateProfile'])->name('account.update');
     Route::post('/update-password',[AccountController::class,'updatePassword'])->name("update.password");
-    // Route::put('account/updatepic',[AccountController::class,'updateProfileImage'])->name('account.updatePic');
+    Route::put('account/updateImage',[AccountController::class,'updateImage'])->name('account.updateImage');
     Route::get('/createpost', [JobController::class, 'createJob'])->name('create.post');
     Route::post('/storepost', [JobController::class, 'storeJob'])->name('store.post');
     Route::get('/myjobs', [JobController::class, 'myJobs'])->name('account.myjobs');

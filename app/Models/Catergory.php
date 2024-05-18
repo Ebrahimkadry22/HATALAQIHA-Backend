@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Catergory extends Model
 {
     use HasFactory;
+
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
 }

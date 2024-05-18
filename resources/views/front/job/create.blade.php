@@ -155,7 +155,7 @@
 
 @section('customjs')
 <script>
-    $('textarea').trumbowyg({});
+    // $('textarea').trumbowyg({});
 $("#FormPost").submit(function(e){
     e.preventDefault();
     console.log($("#FormPost").serializeArray());

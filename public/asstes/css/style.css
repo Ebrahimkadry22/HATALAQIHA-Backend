@@ -996,9 +996,7 @@ thead>tr>th {
 thead>tr>.save {
     width: calc(100% / 4 + 8%);
 }
-thead>tr>.applicants {
-    width: calc(100% / 3 + 12.3%);
-}
+
 .w-2 {
     width: 2%;
 }

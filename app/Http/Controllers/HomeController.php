@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Catergory;
 use App\Models\Job;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -12,6 +13,7 @@ class HomeController extends Controller
         $catergories = Catergory::where('status', 1)
             ->orderBy('name', 'ASC')
             ->take(8)->get();
+            // $count = Job::where('id',)
 
 
         $newCatergories = Catergory::where('status',1)
@@ -29,6 +31,7 @@ class HomeController extends Controller
             ->with('jobType')
             ->orderBy('created_at', 'DESC')
             ->take(6)->get();
+
 
 
 
